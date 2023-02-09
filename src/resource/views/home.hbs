@@ -1,1 +1,19 @@
-<h1>Home page</h1>
+<div class="mt-4">
+    <div class="row mt-4">
+        {{#each courses}}
+        <div class="col-md-4 ">
+            <div class="course">
+                <img class="course-img-top" src="{{this.image}}" alt="course image cap">
+                <div class="course-body">
+                    <h5 class="course-title">{{this.name}}</h5>
+                    <p class="course-author">{{this.author}}</p>
+                    <p class="course-price">{{this.price}}</p>
+                    <a href="#" class="btn btn-primary">Mua khoá học</a>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+
+    </div>
+
+</div>

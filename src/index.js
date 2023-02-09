@@ -4,6 +4,7 @@ const { engine } = require("express-handlebars");
 const morgan = require("morgan");
 const path = require("path");
 const app = express();
+const db = require("./config/db/index");
 const port = 3000;
 const route = require("./route/index");
 // HTTP logger
@@ -12,10 +13,12 @@ const route = require("./route/index");
 // Template engine
 app.engine("hbs", engine({ extname: ".hbs" }));
 app.set("view engine", "hbs");
-app.set("views", path.join(__dirname, "resource/views"));
+app.set("views", path.join(__dirname, "resource", "views"));
 //set use static file
 app.use(express.static("src/public"));
 // set up route
+//connect database
+db.connect();
 app.use(
   urlencoded({
     extended: true,
@@ -24,5 +27,5 @@ app.use(
 app.use(json());
 route(app);
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`App listening on port ${port}`);
 });
