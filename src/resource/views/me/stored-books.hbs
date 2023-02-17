@@ -1,36 +1,92 @@
-<h3>My List Books</h3>
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name </th>
-            <th scope="col">Author</th>
-            <th scope="col">Price</th>
-            <th scope="col">VideoId</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each books}}
-        <tr>
-            <th scope="row">{{sum @index 1}}</th>
-            <td>{{this.name}}</td>
-            <td>{{this.author}}</td>
-            <td>{{this.price}}</td>
-            <td>{{this.videoId}}</td>
-            <td>
-                <button type="button" class="btn btn-primary">
-                    <a href="/books/{{this._id}}/edit">
-                        Sửa
-                    </a>
-                </button>
-                <button type="button" class="btn btn-danger">
-                    <a href="">
-                        Xoá
-                    </a>
-                </button>
-            </td>
-        </tr>
-        {{/each
-        }}
-    </tbody>
-</table>
+<div class="mt-4">
+    <div class="d-flex justify-content-between">
+        <h3>My List Books</h3>
+        <a href="/me/trash/books">
+            <i class="fa-solid fa-trash-can trash-icon"></i>
+        </a>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name </th>
+                <th scope="col">Author</th>
+                <th scope="col">Price</th>
+                <th scope="col">VideoId</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each books}}
+            <tr>
+                <th scope="row">{{sum @index 1}}</th>
+                <td>{{this.name}}</td>
+                <td>{{this.author}}</td>
+                <td>{{this.price}}</td>
+                <td>{{this.videoId}}</td>
+                <td class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-primary">
+                        <a href="/books/{{this._id}}/edit">
+                            Sửa
+                        </a>
+                    </button>
+                    <button type="button" class="btn btn-danger" data-id="{{this._id}}" data-bs-toggle="modal"
+                        data-bs-target="#delete-book-modal">
+                        <a>
+                            Xoá
+                        </a>
+                    </button>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <td colspan="5">
+                    <div class="text-center">
+                        Bạn chưa đăng khoá học nào!
+                        <a href="/books/create">Đăng sách ngay</a>
+                    </div>
+                </td>
+            </tr>
+            {{/each
+            }}
+        </tbody>
+    </table>
+</div>
+
+{{!-- Modal of delete button --}}
+<div id="delete-book-modal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xoá Sách Này?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn chắc chắn muốn xoá đầu sách này chứ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ bỏ</button>
+                <button type="button" id="button-delete-book" class="btn btn-danger">Xoá bỏ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- Hidden form delete method --}}
+<form method="POST" id="form-hidden-delete"></form>
+<script>
+    var bookId;
+    var btnDelete = document.getElementById('button-delete-book');
+    var formHidden = document.getElementById('form-hidden-delete');
+    document.addEventListener("DOMContentLoaded", function () {
+        $('#delete-book-modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            bookId = button.data('id')
+        })
+    })
+    btnDelete.onclick = function () {
+        formHidden.action = "/books/" + bookId + "?_method=DELETE"
+        formHidden.submit();
+    }
+
+</script>

@@ -1,0 +1,70 @@
+<div class="mt-4">
+    <div class="d-flex justify-content-between">
+        <h3>My List Deleted Books</h3>
+        <a href="/me/stored/books">
+            <i class="fa-solid fa-arrow-left-long"></i>
+        </a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name </th>
+                <th scope="col">Author</th>
+                <th scope="col">Price</th>
+                <th scope="col">VideoId</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each books}}
+            <tr>
+                <th scope="row">{{sum @index 1}}</th>
+                <td>{{this.name}}</td>
+                <td>{{this.author}}</td>
+                <td>{{this.price}}</td>
+                <td>{{this.videoId}}</td>
+                <td class="d-flex justify-content-end">
+                    <button type="button" data-id="{{this._id}}" class="btn btn-primary button-restore-book">
+                        <a>
+                            Khôi Phục
+                        </a>
+                    </button>
+                    <button type="button" class="btn btn-danger" data-id="{{this._id}}" data-bs-toggle="modal"
+                        data-bs-target="#delete-book-modal">
+                        <a>
+                            Xoá Vĩnh Viễn
+                        </a>
+                    </button>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <td colspan="5">
+                    <div class="text-center">
+                        Thùng rác trống
+
+                    </div>
+                </td>
+            </tr>
+
+            {{/each
+            }}
+        </tbody>
+    </table>
+</div>
+<form method="POST" id="form-hidden-restore"></form>
+<script>
+    var bookId;
+    var btnRestores = document.querySelectorAll('.button-restore-book');
+    var formHidden = document.getElementById('form-hidden-restore');
+
+    btnRestores.forEach((btnRestore) => {
+
+        btnRestore.addEventListener("click", e => {
+            bookId = e.currentTarget.getAttribute("data-id");
+            formHidden.action = "/books/" + bookId + "/restore?_method=PATCH"
+            formHidden.submit();
+        })
+    })
+</script>

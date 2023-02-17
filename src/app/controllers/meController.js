@@ -9,5 +9,12 @@ class meController {
       )
       .catch(next);
   }
+  showTrash(req, res, next) {
+    Book.findDeleted()
+      .then((books) =>
+        res.render("me/trash-books", { books: multiMongooseToObject(books) })
+      )
+      .catch(next);
+  }
 }
 module.exports = new meController();

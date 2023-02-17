@@ -46,5 +46,19 @@ class BooksController {
       res.redirect("/me/stored");
     });
   }
+  delete(req, res, next) {
+    Book.delete({ _id: req.params.id })
+      .then(() => {
+        res.redirect("back");
+      })
+      .catch(next);
+  }
+  restore(req, res, next) {
+    Book.restore({ _id: req.params.id })
+      .then(() => {
+        res.redirect("back");
+      })
+      .catch(next);
+  }
 }
 module.exports = new BooksController();
