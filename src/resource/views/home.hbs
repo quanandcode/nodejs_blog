@@ -1,14 +1,17 @@
 <div class="mt-4">
-    <div class="row mt-4">
-        {{#each courses}}
-        <div class="col-md-4 ">
-            <div class="course">
-                <img class="course-img-top" src="{{this.image}}" alt="course image cap">
-                <div class="course-body">
-                    <h5 class="course-title">{{this.name}}</h5>
-                    <p class="course-author">{{this.author}}</p>
-                    <p class="course-price">{{this.price}}</p>
-                    <a href="#" class="btn btn-primary">Mua khoá học</a>
+    <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-lg-3 mt-4">
+        {{#each books}}
+        <div class="col ">
+            <div class="book">
+                <a href="/books/{{this.slug}}"><img class="book-img-top" src="{{this.image}}" alt="book image cap"></a>
+                <div class="book-body">
+                    <a href="/books/{{this.slug}}" class="book-name">
+                        <h5 class="book-title">{{this.name}}</h5>
+                    </a>
+
+                    <p class="book-author">{{this.author}}</p>
+                    <p class="book-price">{{this.price}}</p>
+                    <a href="#" class="btn btn-primary">Mua ngay</a>
                 </div>
             </div>
         </div>
