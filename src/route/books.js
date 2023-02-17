@@ -5,6 +5,7 @@ bookRouter.get("/create", BookController.create);
 bookRouter.post("/store", BookController.store);
 bookRouter.get("/:id/edit", BookController.edit);
 bookRouter.delete("/:id", BookController.delete);
+bookRouter.delete("/:id/force", BookController.forceDelete);
 bookRouter.patch("/:id/restore", BookController.restore);
 bookRouter.put("/:id", BookController.update);
 bookRouter.get("/:slug", BookController.show);

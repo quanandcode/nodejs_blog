@@ -30,7 +30,7 @@
                             Khôi Phục
                         </a>
                     </button>
-                    <button type="button" class="btn btn-danger" data-id="{{this._id}}" data-bs-toggle="modal"
+                    <button type="button" class="btn btn-danger " data-id="{{this._id}}" data-bs-toggle="modal"
                         data-bs-target="#delete-book-modal">
                         <a>
                             Xoá Vĩnh Viễn
@@ -53,12 +53,30 @@
         </tbody>
     </table>
 </div>
+<div id="delete-book-modal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xoá Vĩnh Viễn Đầu Sách Này</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Hành động này không thể khôi phục lại! Bạn chắc chắn muốn xoá đầu sách này chứ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ bỏ</button>
+                <button type="button" id="button-delete-book" class="btn btn-danger">Xoá Vĩnh Viễn</button>
+            </div>
+        </div>
+    </div>
+</div>
 <form method="POST" id="form-hidden-restore"></form>
 <script>
     var bookId;
+    var bookIdTakeFromForce;
     var btnRestores = document.querySelectorAll('.button-restore-book');
     var formHidden = document.getElementById('form-hidden-restore');
-
+    var btnDelete = document.getElementById("button-delete-book")
     btnRestores.forEach((btnRestore) => {
 
         btnRestore.addEventListener("click", e => {
@@ -67,4 +85,14 @@
             formHidden.submit();
         })
     })
+    document.addEventListener("DOMContentLoaded", function () {
+        $('#delete-book-modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            bookIdTakeFromForce = button.data('id')
+        })
+    })
+    btnDelete.onclick = () => {
+        formHidden.action = "/books/" + bookIdTakeFromForce + "/force?_method=DELETE"
+        formHidden.submit();
+    }
 </script>

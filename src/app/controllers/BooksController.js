@@ -53,6 +53,13 @@ class BooksController {
       })
       .catch(next);
   }
+  forceDelete(req, res, next) {
+    Book.deleteOne({ _id: req.params.id })
+      .then(() => {
+        res.redirect("back");
+      })
+      .catch(next);
+  }
   restore(req, res, next) {
     Book.restore({ _id: req.params.id })
       .then(() => {
