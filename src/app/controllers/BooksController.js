@@ -75,6 +75,21 @@ class BooksController {
             res.redirect("back");
           })
           .catch(next);
+        break;
+      case "restore":
+        Book.restore({ _id: { $in: req.body.bookIds } })
+          .then(() => {
+            res.redirect("back");
+          })
+          .catch(next);
+        break;
+      case "deleteForce":
+        Book.deleteMany({ _id: { $in: req.body.bookIds } })
+          .then(() => {
+            res.redirect("back");
+          })
+          .catch(next);
+        break;
       default:
     }
   }

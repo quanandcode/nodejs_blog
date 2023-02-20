@@ -1,13 +1,29 @@
-<div class="mt-4">
+<form class="mt-4" method="POST" action="/books/handle-form-action">
     <div class="d-flex justify-content-between">
         <h3>List Of My Deleted Books</h3>
         <a href="/me/stored/books">
             <i class="fa-solid fa-arrow-left-long"></i>
         </a>
     </div>
+    <div class="d-flex align-items-center">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="check-all-books">
+            <label class="form-check-label" for="check-all-books">
+                Chọn tất cả
+            </label>
+        </div>
+        <select class="form-select form-select-sm select-actions" aria-label="Default select example" name="action"
+            required>
+            <option selected value="">--Hành động--</option>
+            <option value="restore">Khôi phục</option>
+            <option value="deleteForce">Xoá Vĩnh Viễn</option>
+        </select>
+        <button type="submit" class="  btn-handler-form-action btn btn-primary disabled">Thực hiện</button>
+    </div>
     <table class="table">
         <thead>
             <tr>
+                <th></th>
                 <th scope="col">#</th>
                 <th scope="col">Name </th>
                 <th scope="col">Author</th>
@@ -19,6 +35,11 @@
         <tbody>
             {{#each books}}
             <tr>
+                <th>
+                    <input class="form-check-input" type="checkbox" name="bookIds[]" value="{{this._id}}"
+                        id="flexCheckDefault">
+
+                </th>
                 <th scope="row">{{sum @index 1}}</th>
                 <td>{{this.name}}</td>
                 <td>{{this.author}}</td>
@@ -40,7 +61,7 @@
             </tr>
             {{else}}
             <tr>
-                <td colspan="5">
+                <td colspan="7">
                     <div class="text-center">
                         Thùng rác trống
 
@@ -52,7 +73,7 @@
             }}
         </tbody>
     </table>
-</div>
+</form>
 <div id="delete-book-modal" class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -72,27 +93,56 @@
 </div>
 <form method="POST" id="form-hidden-restore"></form>
 <script>
-    var bookId;
-    var bookIdTakeFromForce;
-    var btnRestores = document.querySelectorAll('.button-restore-book');
-    var formHidden = document.getElementById('form-hidden-restore');
-    var btnDelete = document.getElementById("button-delete-book")
-    btnRestores.forEach((btnRestore) => {
 
-        btnRestore.addEventListener("click", e => {
-            bookId = e.currentTarget.getAttribute("data-id");
-            formHidden.action = "/books/" + bookId + "/restore?_method=PATCH"
-            formHidden.submit();
-        })
-    })
+
     document.addEventListener("DOMContentLoaded", function () {
+        var bookId;
+        var bookIdTakeFromForce;
+        var btnRestores = document.querySelectorAll('.button-restore-book');
+        var formHidden = document.getElementById('form-hidden-restore');
+        var btnDelete = document.getElementById("button-delete-book")
+        //variables checkboxAll
+        var checkboxAllBooks = $('#check-all-books')
+        var checkboxBookItems = $('input[name="bookIds[]"]')
+        var btnSubmit = $('.btn-handler-form-action')
+        var selectAction = $('.select-actions')
+        var quantityChecked;
         $('#delete-book-modal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
             bookIdTakeFromForce = button.data('id')
         })
+        btnRestores.forEach((btnRestore) => {
+
+            btnRestore.addEventListener("click", e => {
+                bookId = e.currentTarget.getAttribute("data-id");
+                formHidden.action = "/books/" + bookId + "/restore?_method=PATCH"
+                formHidden.submit();
+            })
+        })
+        btnDelete.onclick = () => {
+            formHidden.action = "/books/" + bookIdTakeFromForce + "/force?_method=DELETE"
+            formHidden.submit();
+        }
+        //Handler for the click 'chon tat ca'
+        checkboxAllBooks.change(function (event) {
+            isCheckedAll = checkboxAllBooks.prop('checked');
+            checkboxBookItems.prop('checked', isCheckedAll)
+            quantityChecked = $('input[name="bookIds[]"]:checked').length;
+            isDisabledBtnAction()
+        })
+        checkboxBookItems.change(function (event) {
+            quantityChecked = $('input[name="bookIds[]"]:checked').length;
+            checkboxAllBooks.prop('checked', checkboxBookItems.length === quantityChecked);
+            isDisabledBtnAction()
+        })
+        //display btn action disabled or active
+        var isDisabledBtnAction = () => {
+            if (quantityChecked > 0) {
+                btnSubmit.removeClass("disabled")
+            } else {
+                btnSubmit.addClass("disabled")
+            }
+        }
+
     })
-    btnDelete.onclick = () => {
-        formHidden.action = "/books/" + bookIdTakeFromForce + "/force?_method=DELETE"
-        formHidden.submit();
-    }
 </script>
