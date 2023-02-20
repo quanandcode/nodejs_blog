@@ -3,6 +3,7 @@ const bookRouter = express.Router();
 const BookController = require("../app/controllers/BooksController");
 bookRouter.get("/create", BookController.create);
 bookRouter.post("/store", BookController.store);
+bookRouter.post("/handle-form-action", BookController.handleFormAction);
 bookRouter.get("/:id/edit", BookController.edit);
 bookRouter.delete("/:id", BookController.delete);
 bookRouter.delete("/:id/force", BookController.forceDelete);

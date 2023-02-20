@@ -1,13 +1,35 @@
-<div class="mt-4">
+<form class="mt-4" action="/books/handle-form-action" method='POST'>
     <div class="d-flex justify-content-between">
-        <h3>My List Books</h3>
-        <a href="/me/trash/books">
-            <i class="fa-solid fa-trash-can trash-icon"></i>
-        </a>
+        <h3>List Of My Books</h3>
+
+        <div class="trash-can">
+            <a href="/me/trash/books">
+                <i class="fa-solid fa-trash-can trash-icon"></i>
+            </a>
+            <div class="number-deleted text-center">
+                <span>{{countDeleted}}</span>
+            </div>
+        </div>
+
+    </div>
+    <div class="d-flex align-items-center">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="check-all-books">
+            <label class="form-check-label" for="check-all-books">
+                Chọn tất cả
+            </label>
+        </div>
+        <select class="form-select form-select-sm select-actions" aria-label="Default select example" name="action"
+            required>
+            <option selected value="">--Hành động--</option>
+            <option value="delete">Xoá</option>
+        </select>
+        <button type="submit" class="  btn-handler-form-action btn btn-primary disabled">Thực hiện</button>
     </div>
     <table class="table table-hover">
         <thead>
             <tr>
+                <th></th>
                 <th scope="col">#</th>
                 <th scope="col">Name </th>
                 <th scope="col">Author</th>
@@ -19,6 +41,12 @@
         <tbody>
             {{#each books}}
             <tr>
+                {{!-- checkbox of book --}}
+                <th>
+                    <input class="form-check-input" type="checkbox" name="bookIds[]" value="{{this._id}}"
+                        id="flexCheckDefault">
+
+                </th>
                 <th scope="row">{{sum @index 1}}</th>
                 <td>{{this.name}}</td>
                 <td>{{this.author}}</td>
@@ -40,7 +68,7 @@
             </tr>
             {{else}}
             <tr>
-                <td colspan="5">
+                <td colspan="7">
                     <div class="text-center">
                         Bạn chưa đăng khoá học nào!
                         <a href="/books/create">Đăng sách ngay</a>
@@ -51,7 +79,7 @@
             }}
         </tbody>
     </table>
-</div>
+</form>
 
 {{!-- Modal of delete button --}}
 <div id="delete-book-modal" class="modal" tabindex="-1">
@@ -75,18 +103,45 @@
 {{!-- Hidden form delete method --}}
 <form method="POST" id="form-hidden-delete"></form>
 <script>
-    var bookId;
-    var btnDelete = document.getElementById('button-delete-book');
-    var formHidden = document.getElementById('form-hidden-delete');
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener('DOMContentLoaded', function () {
+        var bookId;
+        var btnDelete = document.getElementById('button-delete-book');
+        var formHidden = document.getElementById('form-hidden-delete');
+        var checkboxAllBooks = $('#check-all-books')
+        var checkboxBookItems = $('input[name="bookIds[]"]')
+        var btnSubmit = $('.btn-handler-form-action')
+        var selectAction = $('.select-actions')
+        var quantityChecked;
         $('#delete-book-modal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
             bookId = button.data('id')
         })
-    })
-    btnDelete.onclick = function () {
-        formHidden.action = "/books/" + bookId + "?_method=DELETE"
-        formHidden.submit();
-    }
+        btnDelete.onclick = function () {
+            formHidden.action = "/books/" + bookId + "?_method=DELETE"
+            formHidden.submit();
+        }
 
+        //Handler for the click 'chon tat ca'
+        checkboxAllBooks.change(function (event) {
+            isCheckedAll = checkboxAllBooks.prop('checked');
+            checkboxBookItems.prop('checked', isCheckedAll)
+            quantityChecked = $('input[name="bookIds[]"]:checked').length;
+            isDisabledBtnAction()
+        })
+        checkboxBookItems.change(function (event) {
+            quantityChecked = $('input[name="bookIds[]"]:checked').length;
+            checkboxAllBooks.prop('checked', checkboxBookItems.length === quantityChecked);
+            isDisabledBtnAction()
+        })
+        //display btn action disabled or active
+        var isDisabledBtnAction = () => {
+            if (quantityChecked > 0) {
+                btnSubmit.removeClass("disabled")
+            } else {
+                btnSubmit.addClass("disabled")
+            }
+        }
+
+
+    })
 </script>

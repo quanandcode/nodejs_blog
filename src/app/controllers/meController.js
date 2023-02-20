@@ -3,10 +3,13 @@ const Book = require("../model/Book");
 class meController {
   //GET: show edit page
   show(req, res, next) {
-    Book.find({})
-      .then((books) =>
-        res.render("me/stored-books", { books: multiMongooseToObject(books) })
-      )
+    Promise.all([Book.find({}), Book.countDocumentsDeleted()])
+      .then(([books, countDeleted]) => {
+        res.render("me/stored-books", {
+          books: multiMongooseToObject(books),
+          countDeleted,
+        });
+      })
       .catch(next);
   }
   showTrash(req, res, next) {

@@ -24,6 +24,31 @@ h2{
     font-size: 25px;
     color: black;
 }
+
+.trash-can{
+    position: relative;
+    .number-deleted{
+        top: -50%;
+        right: -50%;
+        position: absolute;
+        width: auto;
+        height: auto;
+        padding: 0px 8px;
+        font-size: 15px;
+        font-weight: 500;
+        color: white;
+        background-color: red;
+        border-radius: 8px;
+    }
+}
+.form-check-input{
+    outline: 1px solid #0b5ed7
+}
+.select-actions{
+    margin: 0px 16px;
+    width: 180px;
+}
+
 .avatar-user{
     width: 36px;
     height: 36px;

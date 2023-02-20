@@ -67,5 +67,17 @@ class BooksController {
       })
       .catch(next);
   }
+  handleFormAction(req, res, next) {
+    switch (req.body.action) {
+      case "delete":
+        Book.delete({ _id: { $in: req.body.bookIds } })
+          .then(() => {
+            res.redirect("back");
+          })
+          .catch(next);
+      default:
+    }
+  }
 }
+
 module.exports = new BooksController();
