@@ -43,7 +43,7 @@ class BooksController {
         image: `https://i.ytimg.com/vi/${req.body.videoId}/hqdefault.jpg?sqp=-oaymwEcCOADEI4CSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAbSa8pyZY_Mny9C2Kpi61vrZS6Yg`,
       }
     ).then(() => {
-      res.redirect("/me/stored");
+      res.redirect("/me/stored/books");
     });
   }
   delete(req, res, next) {

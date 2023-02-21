@@ -2,8 +2,14 @@ const { multiMongooseToObject } = require("../../util/mongoose");
 const Book = require("../model/Book");
 class meController {
   //GET: show edit page
-  show(req, res, next) {
-    Promise.all([Book.find({}), Book.countDocumentsDeleted()])
+  storeBooks(req, res, next) {
+    let listSortedBooks = Book.find({});
+    if (req.query.hasOwnProperty("_sort")) {
+      listSortedBooks = listSortedBooks.sort({
+        [req.query.column]: req.query.type,
+      });
+    }
+    Promise.all([listSortedBooks, Book.countDocumentsDeleted()])
       .then(([books, countDeleted]) => {
         res.render("me/stored-books", {
           books: multiMongooseToObject(books),

@@ -1,7 +1,6 @@
 <form class="mt-4" action="/books/handle-form-action" method='POST'>
     <div class="d-flex justify-content-between">
         <h3>List Of My Books</h3>
-
         <div class="trash-can">
             <a href="/me/trash/books">
                 <i class="fa-solid fa-trash-can trash-icon"></i>
@@ -31,10 +30,18 @@
             <tr>
                 <th></th>
                 <th scope="col">#</th>
-                <th scope="col">Name </th>
-                <th scope="col">Author</th>
-                <th scope="col">Price</th>
-                <th scope="col">VideoId</th>
+                <th scope="col">Name
+                    {{{sortable 'name' _sort}}}
+                </th>
+                <th scope="col">Author
+                    {{{sortable 'author' _sort}}}
+                </th>
+                <th scope="col">Price
+                    {{{sortable 'price' _sort}}}
+                </th>
+                <th scope="col">VideoId
+
+                </th>
                 <th scope="col"></th>
             </tr>
         </thead>
