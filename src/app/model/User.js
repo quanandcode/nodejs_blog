@@ -6,7 +6,7 @@ const User = new Schema({
   nickName: {
     type: String,
     required: [true, "Vui lòng nhập Tên tài khoản"],
-    minlength: [5, "Tên tài khoản phải dài tối thiểu 5 kí tự"],
+    minlength: [3, "Tên tài khoản phải dài tối thiểu 3 kí tự"],
   },
   email: {
     type: String,
@@ -26,4 +26,16 @@ User.pre("save", async function (next) {
   this.password = hash;
   next();
 });
+User.statics.login = async function (email, password) {
+  const user = await this.findOne({ email });
+  if (user) {
+    isCorrect = await bcrypt.compare(password, user.password);
+    console.log(user);
+    if (isCorrect) {
+      return user;
+    }
+    throw Error("Password is not correct");
+  }
+  throw Error("Email is not correct");
+};
 module.exports = mongoose.model("User", User);

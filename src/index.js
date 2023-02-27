@@ -10,6 +10,7 @@ const db = require("./config/db/index");
 const port = 3000;
 const route = require("./route/index");
 const { log } = require("console");
+const cookie = require("cookie-parser");
 // HTTP logger
 // app.use(morgan("combined"));
 
@@ -46,7 +47,7 @@ app.engine(
 );
 //add middleware
 app.use(sortMiddleWare);
-
+app.use(cookie());
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "resource", "views"));
 //set use static file

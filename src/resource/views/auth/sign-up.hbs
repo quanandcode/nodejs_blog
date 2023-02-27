@@ -1,0 +1,67 @@
+<div class="signup-wrap">
+    <img src="/img/background-login.jpg" alt="Background" class="background-login">
+    <div class="d-flex justify-content-center container w-100 h-100">
+        <div class="signup-modal d-flex justify-content-center pb-8">
+            <div class="signup-modal-wrap align-item-center text-center">
+                <a class="text-center d-inline-block" href="">
+                    <img class="logo " src="/img/logo-epic.jpg" alt="">
+                </a>
+                <h3 class="text-center mb-4">Đăng ký tài khoản Epic Read</h3>
+                <form class="form-signup">
+                    <div class="form-group  mt-4 text-start">
+                        <label>Tên Tài Khoản</label>
+                        <input type="text" name="nickName" class="form-control" placeholder="">
+                        <div class="nick-name-error error-auth"></div>
+                    </div>
+                    <div class="form-group  mt-4 text-start">
+                        <label>Email</label>
+                        <input type="email" name="email" class="form-control" placeholder="Nhập email">
+                        <div class="email-error error-auth"></div>
+                    </div>
+                    <div class="form-group mt-4 text-start">
+                        <label>Mật Khẩu</label>
+                        <input type="password" name="password" class="form-control" placeholder="Nhập mật khẩu">
+                        <div class="password-error error-auth"></div>
+                    </div>
+                    <button class="btn btn-primary btn-block mt-4 btn-signup">Đăng
+                        Ký</button>
+                    <p class="d-inline-block mt-4">Bạn đã có tài khoản? <a href="/auth/login">Đăng nhập ngay!</a></p>
+                    <span></span>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const formSignup = document.querySelector('.form-signup');
+
+    formSignup.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const nickNameError = document.querySelector('.nick-name-error');
+        const emailError = document.querySelector('.email-error');
+        const passwordError = document.querySelector('.password-error');
+        const nickName = formSignup.nickName.value;
+        const email = formSignup.email.value;
+        const password = formSignup.password.value;
+        try {
+            const res = await fetch("/auth/signup", {
+                headers: { "Content-Type": "application/json" },
+                method: "POST",
+                body: JSON.stringify({ nickName, email, password })
+            })
+            const data = await res.json();
+            if (data.errors) { //Check isHasError, if have error
+                nickNameError.textContent = data.errors.nickName;
+                emailError.textContent = data.errors.email;
+                passwordError.textContent = data.errors.password;
+            }
+            if (data.user) { //Check isHasError, if have error
+                location.assign("/");
+            }
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+    })
+</script>

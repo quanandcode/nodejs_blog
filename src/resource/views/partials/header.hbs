@@ -1,7 +1,9 @@
 <nav class="navbar  navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <div>
-            <a class="navbar-brand " href="/">Quan's Blog</a>
+            <a class="navbar-brand " href="/">
+                <img src="/img/logo-home.png" alt="" class="brand-home">
+            </a>
         </div>
 
         <div class="collapse fix-flex-grow navbar-collapse ms-auto" id="navbarNavDarkDropdown">
@@ -19,9 +21,31 @@
                         <li><a class="dropdown-item" href="/books/create">Thêm Sách</a></li>
                         <li><a class="dropdown-item" href="#">Thông Tin Tài Khoản</a></li>
                         <li><a class="dropdown-item" href="/me/stored/books">Sách Của Tôi</a></li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logout-modal" href="/">Đăng
+                                Xuất</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+{{!-- Modal of logout --}}
+<div id="logout-modal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Đăng xuất?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn chắc chắn muốn đăng xuất khỏi Epic Read?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ bỏ</button>
+                <button type="button" id="button-logout" class="btn btn-danger">
+                    <a href="/auth/logout">Đăng Xuất</a>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
