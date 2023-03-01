@@ -1,0 +1,32 @@
+.signup-wrap {
+  width: 100%;
+  position: relative;
+}
+.signup-wrap .signup-modal {
+  width: 50%;
+  font-size: 20px;
+  display: block;
+  top: 10vh;
+  padding: 20px 0;
+  background-color: white;
+  position: absolute;
+  border-radius: 10px;
+}
+.signup-wrap .signup-modal .signup-modal-wrap .logo {
+  display: block;
+  border-radius: 10px;
+}
+.signup-wrap .signup-modal .signup-modal-wrap .btn-signup {
+  width: 100%;
+  display: block;
+}
+.signup-wrap .signup-modal .signup-modal-wrap a {
+  text-decoration: none;
+}
+
+@media screen and (max-width: 720px) {
+  .signup-wrap .signup-modal {
+    width: 90%;
+    min-height: 65vh;
+  }
+}/*# sourceMappingURL=signup.css.map */

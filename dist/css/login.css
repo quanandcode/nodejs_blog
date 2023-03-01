@@ -1,0 +1,39 @@
+.background-login {
+  width: 100%;
+  height: 100vh;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.login-wrap {
+  width: 100%;
+  position: relative;
+}
+.login-wrap .login-modal {
+  width: 50%;
+  font-size: 20px;
+  display: block;
+  top: 10vh;
+  padding: 20px 0;
+  background-color: white;
+  position: absolute;
+  border-radius: 10px;
+}
+.login-wrap .login-modal .login-modal-wrap .logo {
+  display: block;
+  border-radius: 10px;
+}
+.login-wrap .login-modal .login-modal-wrap .btn-login {
+  width: 100%;
+  display: block;
+}
+.login-wrap .login-modal .login-modal-wrap a {
+  text-decoration: none;
+}
+
+@media screen and (max-width: 720px) {
+  .login-wrap .login-modal {
+    width: 90%;
+    min-height: 65vh;
+  }
+}/*# sourceMappingURL=login.css.map */
